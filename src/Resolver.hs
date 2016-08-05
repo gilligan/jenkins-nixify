@@ -9,9 +9,13 @@ import qualified Data.Map.Strict as M
 import Parser
 import Plugins
 
-getTopLevelPlugins :: [T.Text] -> [JenkinsPlugin] -> [JenkinsPlugin]
-getTopLevelPlugins pNames = filter (isSelected pNames)
-    where isSelected selected plugin = __name plugin `elem` selected
+{-getTopLevelPlugins :: [T.Text] -> [JenkinsPlugin] -> [JenkinsPlugin]-}
+{-getTopLevelPlugins pNames = filter (isSelected pNames)-}
+    {-where isSelected selected plugin = __name plugin `elem` selected-}
+
+selectPlugins :: [T.Text] -> [ResolvedPlugin] -> [ResolvedPlugin]
+selectPlugins pNames resolvedPlugins = filter (isSelected pNames) resolvedPlugins
+    where isSelected selected plugin = prName plugin `elem` selected
 
 resolvePlugins :: [JenkinsPlugin] -> [ResolvedPlugin]
 resolvePlugins ps = map snd (M.toList rpm)
@@ -32,4 +36,4 @@ resolve jsonFile pNames = do
         pluginData <- parsePluginsJSON jsonFile
         case pluginData of
             Left err -> putStrLn err
-            Right allPlugins -> putStrLn $ show $ resolvePlugins $ getTopLevelPlugins pNames allPlugins
+            Right allPlugins -> print $ selectPlugins pNames (resolvePlugins allPlugins)
