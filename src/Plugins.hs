@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Plugins where
 
@@ -7,13 +8,23 @@ import Data.Aeson
 import Data.Aeson.Types
 
 import qualified Data.Text as T
+import Text.Printf (printf)
+
+data PluginNixExpression = PluginNixExpression {
+                           pluginName :: T.Text
+                         , pluginSHA :: T.Text
+                         , pluginVersion :: T.Text
+                         } deriving (Eq, Ord)
+
+instance Show PluginNixExpression where
+        show (PluginNixExpression name sha version) = printf "\"%s\" = {\nversion = \"%s\";\nsha1 = \"%s\";\n};" name version sha
 
 data ResolvedPlugin = ResolvedPlugin {
                      prName :: T.Text
                    , prDeps :: [ResolvedPlugin]
                    , prSHA :: T.Text
                    , prVersion :: T.Text
-                   } deriving (Eq, Show)
+                   } deriving (Eq, Ord, Show)
 
 data JenkinsPluginRef = PluginRef {
                  name :: T.Text

@@ -24,6 +24,7 @@ executable jenkins-nixify
   -- other-extensions:
   build-depends:       base >=4.9 && <4.10
                      , aeson
+                     , base64-bytestring
                      , bytestring
                      , containers
                      , text
