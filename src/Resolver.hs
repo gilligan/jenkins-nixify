@@ -50,10 +50,12 @@ resolvePlugin :: M.Map T.Text ResolvedPlugin -> JenkinsPlugin -> ResolvedPlugin
 resolvePlugin m plugin = ResolvedPlugin pluginName resolvedDeps sha version
     where
         pluginName = __name plugin
-        deps = name <$> __dependencies plugin
+        deps = name <$> filteredDeps
         resolvedDeps = mapMaybe (`M.lookup` m) deps
         sha = __sha1 plugin
         version = __version plugin
+        filteredDeps = filter isNonOptional (__dependencies plugin)
+        isNonOptional = not . optional
 
 
 resolve :: [T.Text] -> [JenkinsPlugin] -> S.Set PluginNixExpression

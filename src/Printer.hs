@@ -16,6 +16,6 @@ printPlugins :: [T.Text] -> S.Set PluginNixExpression -> T.Text
 printPlugins plugins expressions = header <> "{\n" <> showExpressions expressions <> "}\n"
     where
         header = headerText <> T.unwords plugins <> "\n"
-        showExpressions =  T.pack . concatMap (indent . show)
-        indent = unlines . map (" " ++) . lines
+        showExpressions =  T.pack . concatMap (indent . show) . S.toAscList
+        indent = unlines . map ("  " ++) . lines
 
