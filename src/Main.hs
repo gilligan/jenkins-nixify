@@ -21,19 +21,20 @@ help = putStrLn $
             , "\t--help         show this help screen"
             ]
 
-
+runResolve :: FilePath -> String -> IO ()
+runResolve jsonFile plugins = do
+        jsonData <- fetchJSON jsonFile
+        pluginData <- runEitherT $ hoistEither $ parseJSON jsonData
+        case pluginData of
+            Left err -> error err
+            Right allPlugins -> (putStr . T.unpack) $ printPlugins pluginNames $ resolve pluginNames allPlugins
+            where
+                pluginNames = (T.words . T.pack) plugins
 
 main :: IO ()
 main = do
     args <- getArgs
     run args where
         run ["--help"] = help
-        run ["resolve", jsonFile, plugins] = do
-            jsonData <- fetchJSON jsonFile
-            pluginData <- runEitherT $ hoistEither $ parseJSON jsonData
-            case pluginData of
-                Left err -> error err
-                Right allPlugins -> (putStr . T.unpack) $ printPlugins pluginNames $ resolve pluginNames allPlugins
-                where
-                    pluginNames = (T.words . T.pack) plugins
+        run ["resolve", jsonFile, plugins] = runResolve jsonFile plugins
         run _ = help
