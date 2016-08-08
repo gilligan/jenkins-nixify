@@ -27,7 +27,8 @@ runResolve jsonFile plugins = do
         pluginData <- runEitherT $ hoistEither $ parseJSON jsonData
         case pluginData of
             Left err -> error err
-            Right allPlugins -> (putStr . T.unpack) $ printPlugins pluginNames $ resolve pluginNames allPlugins
+            Right allPlugins -> print $ resolvePlugins allPlugins
+            {-Right allPlugins -> (putStr . T.unpack) $ printPlugins pluginNames $ resolve pluginNames allPlugins-}
             where
                 pluginNames = (T.words . T.pack) plugins
 

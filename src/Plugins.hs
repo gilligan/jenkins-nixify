@@ -12,6 +12,15 @@ import qualified Data.Text.Lazy.Encoding as LTE
 import qualified Data.Text as T
 import Text.Printf (printf)
 
+dummySHA = "il8z91iDnqVMu78Ghj8q2swCpdk="
+p1 = ResolvedPlugin "p1" [p4] dummySHA  "v1"
+p2 = ResolvedPlugin "p2" [p3, p4] dummySHA  "v1"
+p3 = ResolvedPlugin "p3" [] dummySHA  "v1"
+p4 = ResolvedPlugin "p4" [] dummySHA  "v1"
+pTop = ResolvedPlugin "top" [p1, p2, p3, p4] dummySHA "v2"
+
+
+
 data PluginNixExpression = PluginNixExpression {
                            pluginName :: T.Text
                          , pluginSHA :: T.Text

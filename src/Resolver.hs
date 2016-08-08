@@ -32,7 +32,7 @@ toSet = run S.empty
     where
         hasDeps = not . null . prDeps
         run packageSet plugin = if hasDeps plugin 
-                                    then packageSet `S.union` S.unions ( run packageSet <$> prDeps plugin )
+                                    then S.insert (toNixExpression plugin) packageSet `S.union` S.unions ( run packageSet <$> prDeps plugin )
                                     else S.insert (toNixExpression plugin) packageSet
 
 
