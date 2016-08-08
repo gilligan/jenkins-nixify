@@ -5,7 +5,7 @@ let
   inherit (nixpkgs) pkgs;
 
   f = { mkDerivation, aeson, base, base64-bytestring, bytestring
-      , containers, cryptohash, stdenv, text
+      , containers, stdenv, text
       }:
       mkDerivation {
         pname = "jenkins-nixify";
@@ -14,7 +14,7 @@ let
         isLibrary = false;
         isExecutable = true;
         executableHaskellDepends = [
-          aeson base base64-bytestring bytestring containers cryptohash text
+          aeson base base64-bytestring bytestring containers text
         ];
         description = "create nix expressions for jenkins plugins";
         license = stdenv.lib.licenses.mit;

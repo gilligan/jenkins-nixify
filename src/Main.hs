@@ -27,6 +27,3 @@ main = do
         run ["--help"] = help
         run ["resolve", jsonFile, plugins] = resolve jsonFile ((T.words . T.pack) plugins)
         run _ = help
-
-{-foo = Data.ByteString.Builder.byteStringHex  <$> Data.ByteString.Base64.decode "nrcD5sb9zwbDSyEPHAby3VG/MZ8="-}
-{-Data.ByteString.Builder.toLazyByteString <$> foo-}
