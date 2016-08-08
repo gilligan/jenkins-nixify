@@ -8,5 +8,5 @@ import Plugins
 import qualified Data.ByteString.Lazy as B
 import qualified Data.Text as T
 
-parsePluginsJSON :: FilePath -> IO (Either String [JenkinsPlugin])
-parsePluginsJSON path = eitherDecode <$> B.readFile path
+parseJSON :: B.ByteString -> Either String [JenkinsPlugin]
+parseJSON = eitherDecode

@@ -19,7 +19,7 @@ data PluginNixExpression = PluginNixExpression {
                          } deriving (Eq, Ord)
 
 instance Show PluginNixExpression where
-        show (PluginNixExpression name sha version) = printf "\"%s\" = {\nversion = \"%s\";\nsha1 = \"%s\";\n};" name version sha
+        show (PluginNixExpression name sha version) = printf "\"%s\" = {\n  version = \"%s\";\n  sha1 = \"%s\";\n};\n" name version sha
 
 data ResolvedPlugin = ResolvedPlugin {
                      prName :: T.Text

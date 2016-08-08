@@ -56,9 +56,5 @@ resolvePlugin m plugin = ResolvedPlugin pluginName resolvedDeps sha version
         version = __version plugin
 
 
-resolve :: FilePath -> [T.Text] -> IO ()
-resolve jsonFile pNames = do
-        pluginData <- parsePluginsJSON jsonFile
-        case pluginData of
-            Left err -> putStrLn err
-            Right allPlugins -> putStrLn $ unlines (show  . toSet <$> selectPlugins pNames (resolvePlugins allPlugins))
+resolve :: [T.Text] -> [JenkinsPlugin] -> S.Set PluginNixExpression
+resolve pNames allPlugins = S.unions $ toSet <$> selectPlugins pNames (resolvePlugins allPlugins)
